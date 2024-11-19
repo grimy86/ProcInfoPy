@@ -2,14 +2,12 @@ import pinfo
 import tkinter as tk
 from tkinter import ttk
 
-def FillTreeView(treeview):
-    """Populate the Treeview with process information."""
-    processes = pinfo.list_all_processes()
-    for process in processes:
-        pid = process["PID"]
-        name = process["Name"]
-        path = process["Path"]
-        treeview.insert("", "end", values=(pid, name, path))
+#PINFO
+def FillTreeView(treeview) -> None:
+        """Fills the treeview with the list of processes."""
+        processes = pinfo.list_all_processes()  # Get the list of processes
+        for process in processes:
+            treeview.insert("", "end", values=(process["PID"], process["Name"], process["Path"]))
 
 # STYLING
 t1 = ("Arial", 14)
@@ -18,7 +16,7 @@ rpady = 10
 
 # ROOT CONFIG
 root = tk.Tk()
-root.geometry("700x500")  # Adjusted dimensions
+root.geometry("500x575")  # widthxheight
 root.title("ProcInfoPy")
 root.iconbitmap("icon.ico")
 root.grid_columnconfigure(0, weight=1)
@@ -39,17 +37,15 @@ scrollbar.grid(row=1, column=1, sticky="ns")
 tree.configure(yscrollcommand=scrollbar.set)
 
 # Define headings
-tree.heading("PID", text="PID")
-tree.heading("Name", text="Name")
-tree.heading("Path", text="Path")
+tree.heading("PID", text="PID", anchor="w")
+tree.heading("Name", text="Name", anchor="w")
+tree.heading("Path", text="Path", anchor="w")
 
 # Adjust column widths
 tree.column("PID", width=100, anchor="center")
 tree.column("Name", width=200, anchor="w")
 tree.column("Path", width=400, anchor="w")
 
-# Populate the Treeview
-FillTreeView(tree)
-
 # Run the application
+FillTreeView(tree)
 root.mainloop()
